@@ -23,11 +23,18 @@ import androidx.compose.ui.unit.dp
 import com.example.notesapp.R
 import com.example.notesapp.components.NoteButton
 import com.example.notesapp.components.NoteInputComponent
+import com.example.notesapp.model.Note
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun NoteScreen(){
+fun NoteScreen(
+    notes: List<Note>,
+    onAddNote: (Note) -> Unit,
+    onRemoveNote: (Note) -> Unit,
+
+){
+
     val title = remember{
         mutableStateOf("");
     }
@@ -69,7 +76,15 @@ fun NoteScreen(){
                         }
                     }, modifier = Modifier.width(350.dp).padding(top = 10.dp,bottom = 10.dp)
                 )
-                NoteButton(modifier = Modifier.padding(top=10.dp,bottom = 10.dp),text = "Add", onClick = { /*TODO*/ })
+                NoteButton(
+                    modifier = Modifier.padding(top=10.dp,bottom = 10.dp),
+                    text = "Add",
+                    onClick = {
+                        if(title.value.toString().isNotEmpty() && description.value.toString().isNotEmpty()){
+                            title.value = ""
+                            description.value = ""
+                        }
+                    })
             }
         }
     }

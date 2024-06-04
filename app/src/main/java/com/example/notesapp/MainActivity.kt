@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApp {
-                NoteScreen()
+                NoteScreen(notes = emptyList(), onRemoveNote = {}, onAddNote = {})
             }
         }
     }
@@ -38,6 +38,6 @@ fun MyApp(content: @Composable () -> Unit){
 @Composable
 fun MyAppPreview(){
     MyApp{
-        NoteScreen()
+        NoteScreen(notes = emptyList(), onAddNote = {}, onRemoveNote = {})
     }
 }
