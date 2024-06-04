@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.notesapp.data.NotesDataSource
 import com.example.notesapp.screen.NoteScreen
 import com.example.notesapp.ui.theme.NotesAppTheme
 
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApp {
-                NoteScreen(notes = emptyList(), onRemoveNote = {}, onAddNote = {})
+                NoteScreen(notes = NotesDataSource().loadNotes(), onRemoveNote = {}, onAddNote = {})
             }
         }
     }
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp(content: @Composable () -> Unit){
-    NotesAppTheme {
+    NotesAppTheme(darkTheme = false) {
         content()
     }
 }
@@ -38,6 +39,6 @@ fun MyApp(content: @Composable () -> Unit){
 @Composable
 fun MyAppPreview(){
     MyApp{
-        NoteScreen(notes = emptyList(), onAddNote = {}, onRemoveNote = {})
+        NoteScreen(notes = NotesDataSource().loadNotes(), onAddNote = {}, onRemoveNote = {})
     }
 }

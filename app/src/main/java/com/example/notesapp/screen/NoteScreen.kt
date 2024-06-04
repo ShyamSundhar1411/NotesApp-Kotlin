@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -16,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,10 +27,11 @@ import androidx.compose.ui.unit.dp
 import com.example.notesapp.R
 import com.example.notesapp.components.NoteButton
 import com.example.notesapp.components.NoteInputComponent
+import com.example.notesapp.components.NoteRow
+import com.example.notesapp.data.NotesDataSource
 import com.example.notesapp.model.Note
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun NoteScreen(
     notes: List<Note>,
@@ -53,7 +58,7 @@ fun NoteScreen(
 
         }
     ) {
-        innerPadding -> Box(modifier = Modifier.padding(innerPadding)){
+        innerPadding -> Column(modifier = Modifier.padding(innerPadding)){
             Column(modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -64,7 +69,9 @@ fun NoteScreen(
                             }){
                         title.value = it
                         }
-                    }, modifier = Modifier.width(350.dp).padding(top = 10.dp,bottom = 10.dp)
+                    }, modifier = Modifier
+                        .width(350.dp)
+                        .padding(top = 10.dp, bottom = 10.dp)
                 )
                 NoteInputComponent(
 
@@ -74,7 +81,9 @@ fun NoteScreen(
                             }){
                             description.value = it
                         }
-                    }, modifier = Modifier.width(350.dp).padding(top = 10.dp,bottom = 10.dp)
+                    }, modifier = Modifier
+                        .width(350.dp)
+                        .padding(top = 10.dp, bottom = 10.dp)
                 )
                 NoteButton(
                     modifier = Modifier.padding(top=10.dp,bottom = 10.dp),
@@ -84,8 +93,27 @@ fun NoteScreen(
                             title.value = ""
                             description.value = ""
                         }
-                    })
+                    }
+                )
+
+
+            }
+        Divider(modifier = Modifier.padding(10.dp))
+        LazyColumn(modifier = Modifier.padding(10.dp)) {
+            items(notes){
+                    note-> NoteRow(note = note) {
+                
+            }
             }
         }
+        }
+
     }
+}
+
+@ExperimentalComposeUiApi
+@Preview(showBackground = true)
+@Composable
+fun NoteScreenPreview(){
+    NoteScreen(notes = NotesDataSource().loadNotes(), onAddNote = {}, onRemoveNote = {})
 }
