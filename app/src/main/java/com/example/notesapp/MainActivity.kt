@@ -14,43 +14,38 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.notesapp.data.NotesDataSource
 import com.example.notesapp.model.Note
 import com.example.notesapp.screen.NoteScreen
 import com.example.notesapp.ui.theme.NotesAppTheme
+import com.example.notesapp.viewmodel.NoteViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val notes = remember{
-                mutableStateListOf<Note>()
-            }
-            MyApp {
-                NoteScreen(notes = notes,
-                    onRemoveNote = {
-                        notes.remove(it)
-                    },
-                    onAddNote = {
-                        notes.add(it)
-                    })
-            }
+            MyApp()
         }
     }
 }
 
 @Composable
-fun MyApp(content: @Composable () -> Unit){
+fun MyApp(notesViewModel: NoteViewModel = viewModel()){
     NotesAppTheme(darkTheme = false) {
-        content()
+        NoteScreen(notes = notesViewModel.getAllNotes(),
+            onRemoveNote = {
+                notesViewModel.removeNote(it)
+            },
+            onAddNote = {
+                notesViewModel.addNote(it)
+            })
     }
 }
 
 @Preview
 @Composable
 fun MyAppPreview(){
-    MyApp{
-        NoteScreen(notes = NotesDataSource().loadNotes(), onAddNote = {}, onRemoveNote = {})
-    }
+    MyApp()
 }
