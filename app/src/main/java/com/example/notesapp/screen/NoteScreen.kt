@@ -1,5 +1,6 @@
 package com.example.notesapp.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,7 @@ fun NoteScreen(
     val description = remember {
         mutableStateOf("");
     }
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -90,8 +93,14 @@ fun NoteScreen(
                     text = "Add",
                     onClick = {
                         if(title.value.toString().isNotEmpty() && description.value.toString().isNotEmpty()){
+                            onAddNote(Note(
+                                title = title.value.toString(),
+                                description = description.value.toString()))
                             title.value = ""
                             description.value = ""
+                            Toast.makeText(context,"Note Added",
+                                Toast.LENGTH_SHORT
+                                ).show()
                         }
                     }
                 )
@@ -101,9 +110,11 @@ fun NoteScreen(
         Divider(modifier = Modifier.padding(10.dp))
         LazyColumn(modifier = Modifier.padding(10.dp)) {
             items(notes){
-                    note-> NoteRow(note = note) {
-                
-            }
+                    note-> NoteRow(note = note,
+                        onNoteClicked = {
+                            onRemoveNote(note)
+                        }
+                    )
             }
         }
         }
