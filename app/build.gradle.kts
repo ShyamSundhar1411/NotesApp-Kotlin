@@ -60,7 +60,10 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    implementation(libs.hilt.android)
+    implementation(libs.coroutines)
     implementation(libs.androidx.viewmodel.compose)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
@@ -73,4 +76,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    ksp(libs.hilt.compiler)
+    ksp(libs.room.compiler)
 }
