@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -35,8 +36,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp(notesViewModel: NoteViewModel = viewModel()){
+    val notesList = notesViewModel.noteList.collectAsState().value
     NotesAppTheme(darkTheme = false) {
-        NoteScreen(notes = notesViewModel.getAllNotes(),
+        NoteScreen(notes = notesList,
             onRemoveNote = {
                 notesViewModel.removeNote(it)
             },
