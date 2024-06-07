@@ -96,9 +96,7 @@ fun NoteRow(
             Text(text = note.description,
                 style = MaterialTheme.typography.bodySmall
                 )
-            Text(text = note.createdAt.format(
-                DateTimeFormatter.ofPattern("EEE, d, MMM")
-                ),
+            Text(text = "Date",
                 style = MaterialTheme.typography.labelSmall
             )
         }
