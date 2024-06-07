@@ -1,10 +1,9 @@
 package com.example.notesapp.converters
 
-import android.annotation.SuppressLint
 import androidx.room.TypeConverter
 import java.util.Date
 
-class Converters {
+class DateConverter {
     @TypeConverter
     fun fromDate(date: Date?): Long? {
         return date?.time
